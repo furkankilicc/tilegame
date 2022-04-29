@@ -1,0 +1,64 @@
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <div class="my-3 p-3 bg-body rounded shadow-lg w-100">
+        <h6 class="border-bottom pb-2 mb-0">Odalar</h6>
+        <small class="d-block text-end mt-3 border-top">
+          <a
+            role="button"
+            class="btn btn-success mt-2"
+            data-bs-toggle="modal"
+            data-bs-target="#createRoomModal"
+            >Oda Oluştur</a
+          >
+        </small>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="createRoomModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="createRoomModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="createRoomModalLabel">Oda Oluştur</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <label for="inputRoomName" class="form-label">Oda İsmi</label>
+        <input
+          type="text"
+          id="inputRoomName"
+          placeholder="Oda ismini giriniz..."
+          class="form-control"
+        />
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          data-bs-dismiss="modal"
+          onclick="clearTextbox()"
+        >
+          Kapat
+        </button>
+        <button type="button" class="btn btn-primary" onclick="createRoom()">
+          Oluştur
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
