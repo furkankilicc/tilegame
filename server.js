@@ -3,7 +3,7 @@ const socket = require("socket.io");
 
 const app = express();
 var port = process.env.PORT || 3000;
-const server = app.listen("https://rocky-springs-75229.herokuapp.com/");
+const server = app.listen(port);
 
 app.use(express.static("public"));
 
