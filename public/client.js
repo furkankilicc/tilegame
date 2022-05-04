@@ -1,8 +1,10 @@
 var socket = io.connect("https://rocky-springs-75229.herokuapp.com/");
+// var socket = io.connect("localhost:3000");
 var mySocketID;
 var myName;
 var myRoom;
 var canvas;
+var tutulanSayi;
 var ctx;
 var gamePageData = {
   gpDrawResult: null,
@@ -261,7 +263,7 @@ socket.on("roomData", (data) => {
       "        </svg>\n" +
       "      </div>\n" +
       '      <hr style="width: 75%" class="mx-auto mt-3" />\n' +
-      '      <ul class="font-weight-light mb-3" id="gameState">' +
+      '      <ul class="font-weight-light" id="gameState">' +
       "</ul>\n" +
       "\n" +
       '      <!--                <h5 class="font-weight-light mb-3">-->\n' +
@@ -342,10 +344,6 @@ socket.on("roomData", (data) => {
       "    }\n" +
       "  });\n" +
       "\n" +
-      '  $("#formTut").submit(function (e) {\n' +
-      '    readTextFile("index.html");\n' +
-      "    e.preventDefault();\n" +
-      "  });\n" +
       "  $(function () {\n" +
       "    $(\"[data-bs-toggle='tooltip']\").tooltip();\n" +
       "  });\n" +
@@ -392,40 +390,17 @@ socket.on("changedTile", (data) => {
   changeTileText("red", gamePageData.gpRedPlayerTiles);
   changeTileText("blue", gamePageData.gpBluePlayerTiles);
 });
-
+function test() {
+  var sayi = $("#inputTutulansayi").val();
+  tutulanSayi = sayi;
+  socket.emit("tutulanSayi", [
+    tutulanSayi,
+    gamePageData.gpRoomName,
+    mySocketID,
+  ]);
+}
 socket.on("tutulanSayiError", (data) => {
   alert("Hata! Tuttuğunuz sayı toplam kare sayınızdan fazla veya 0 olamaz!");
-
-  var tutulanSayi = "its not my turn";
-  setTimeout(() => {
-    if (data[1] == mySocketID) {
-      tutulanSayi = prompt("Tutulan sayıyı giriniz");
-      if (
-        tutulanSayi != "its not my turn" ||
-        tutulanSayi != null ||
-        tutulanSayi != ""
-      ) {
-        socket.emit("tutulanSayi", [
-          tutulanSayi,
-          gamePageData.gpRoomName,
-          mySocketID,
-        ]);
-      }
-    } else if (data[2] == mySocketID) {
-      tutulanSayi = prompt("Tutulan sayıyı giriniz");
-      if (
-        tutulanSayi != "its not my turn" ||
-        tutulanSayi != null ||
-        tutulanSayi != ""
-      ) {
-        socket.emit("tutulanSayi", [
-          tutulanSayi,
-          gamePageData.gpRoomName,
-          mySocketID,
-        ]);
-      }
-    }
-  }, 1500);
 });
 
 socket.on("gameData", (data) => {
@@ -456,31 +431,68 @@ socket.on("gameData", (data) => {
     gamePageData.gpTurn = data.gameData[1][0];
     gamePageData.gpGameState = data.gameData[1][1];
     changeGameStateText(data.gameData[1][1]);
-    var tutulanSayi = "its not my turn";
+    tutulanSayi = "its not my turn";
     setTimeout(() => {
       if (data.gameData[1][2] == mySocketID && data.gameData[1][0] == "red") {
-        tutulanSayi = prompt("Tutulan sayıyı giriniz");
-        if (
-          tutulanSayi != "its not my turn" ||
-          tutulanSayi != null ||
-          tutulanSayi != ""
-        ) {
-          socket.emit("tutulanSayi", [
-            tutulanSayi,
-            gamePageData.gpRoomName,
-            mySocketID,
-          ]);
+        $("#gameState").after(
+          "<div\n" +
+            '            class="row row-cols-sm-2 align-items-center justify-content-center"\n' +
+            '            id="formTut"\n' +
+            "          >\n" +
+            '            <div class="col col-sm-5">\n' +
+            '              <div class="input-group">\n' +
+            '                <div class="input-group-text">Tuttuğun Sayı</div>\n' +
+            "                <input\n" +
+            '                  type="number"\n' +
+            '                  value="1"\n' +
+            '                  class="form-control"\n' +
+            '                  id="inputTutulansayi"\n' +
+            "                />\n" +
+            "              </div>\n" +
+            "            </div>\n" +
+            "\n" +
+            '            <div class="col col-sm-1">\n' +
+            '              <button type="button" onclick="test()" class="btn btn-primary">\n' +
+            "                Tut\n" +
+            "              </button>\n" +
+            "            </div>\n" +
+            "          </div>"
+        );
+        if (tutulanSayi != "its not my turn") {
+          console.log("geldiTUTULANSAYİ3", tutulanSayi);
         }
       } else if (
         data.gameData[1][3] == mySocketID &&
         data.gameData[1][0] == "blue"
       ) {
-        tutulanSayi = prompt("Tutulan sayıyı giriniz");
-        if (
-          tutulanSayi != "its not my turn" ||
-          tutulanSayi != null ||
-          tutulanSayi != ""
-        ) {
+        $("#gameState").after(
+          "<div\n" +
+            '            class="row row-cols-sm-2 align-items-center justify-content-center"\n' +
+            '            action="#"\n' +
+            '            target="_self"\n' +
+            '            id="formTut"\n' +
+            "          >\n" +
+            '            <div class="col col-sm-5">\n' +
+            '              <div class="input-group">\n' +
+            '                <div class="input-group-text">Tuttuğun Sayı</div>\n' +
+            "                <input\n" +
+            '                  type="number"\n' +
+            '                  value="1"\n' +
+            '                  class="form-control"\n' +
+            '                  id="inputTutulansayi"\n' +
+            "                />\n" +
+            "              </div>\n" +
+            "            </div>\n" +
+            "\n" +
+            '            <div class="col col-sm-1">\n' +
+            '              <button type="button" onclick="test()" class="btn btn-primary">\n' +
+            "                Tut\n" +
+            "              </button>\n" +
+            "            </div>\n" +
+            "          </div>"
+        );
+        if (tutulanSayi != "its not my turn") {
+          console.log("geldiTUTULANSAYİ", tutulanSayi);
           socket.emit("tutulanSayi", [
             tutulanSayi,
             gamePageData.gpRoomName,
@@ -707,6 +719,8 @@ function changeGameStateText(
         break;
     }
   } else if (drawnColor == "red" && drawnNumber != null) {
+    $("#formTut").fadeOut(300);
+    $("#formTut").remove();
     var text;
     if (drawResult == "plus") {
       text = "kazandı!";
@@ -715,6 +729,8 @@ function changeGameStateText(
     }
     log("Kırmızı  " + drawnNumber + " kare " + text);
   } else if (drawnColor == "blue" && drawnNumber != null) {
+    $("#formTut").fadeOut(300);
+    $("#formTut").remove();
     var text;
     if (drawResult == "plus") {
       text = "kazandı!";
@@ -921,7 +937,7 @@ function updateGamePageParameters(gameState, map) {
       "        </svg>\n" +
       "      </div>\n" +
       '      <hr style="width: 75%" class="mx-auto mt-3" />\n' +
-      '      <ul class="font-weight-light mb-3" id="gameState">' +
+      '      <ul class="font-weight-light" id="gameState">' +
       "</ul>\n" +
       "\n" +
       '      <!--                <h5 class="font-weight-light mb-3">-->\n' +
@@ -1003,7 +1019,7 @@ function updateGamePageParameters(gameState, map) {
       "  });\n" +
       "\n" +
       '  $("#formTut").submit(function (e) {\n' +
-      '    readTextFile("index.html");\n' +
+      "    alert('test');\n" +
       "    e.preventDefault();\n" +
       "  });\n" +
       "  $(function () {\n" +

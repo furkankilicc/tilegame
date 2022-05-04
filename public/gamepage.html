@@ -106,29 +106,6 @@
       <hr style="width: 75%" class="mx-auto mt-3" />
       <h5 class="font-weight-light mb-3">Sıra sende!</h5>
 
-      <form
-        class="row row-cols-sm-2 align-items-center justify-content-center"
-        action="#"
-        target="_self"
-        id="formTut"
-      >
-        <div class="col col-sm-5">
-          <div class="input-group">
-            <div class="input-group-text">Tuttuğun Sayı</div>
-            <input
-              type="number"
-              value="1"
-              class="form-control"
-              id="inputTutulansayi"
-            />
-          </div>
-        </div>
-
-        <div class="col col-sm-1">
-          <button type="submit" class="btn btn-primary">Tut</button>
-        </div>
-      </form>
-
       <!--                <h5 class="font-weight-light mb-3">-->
       <!--                  test12345 sayı tutuyor...-->
       <!--                </h5>-->
@@ -207,10 +184,6 @@
     }
   });
 
-  $("#formTut").submit(function (e) {
-    readTextFile("index.html");
-    e.preventDefault();
-  });
   $(function () {
     $("[data-bs-toggle='tooltip']").tooltip();
   });
