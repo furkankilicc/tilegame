@@ -1,4 +1,4 @@
-var socket = io.connect("https://rocky-springs-75229.herokuapp.com/");
+var socket = io.connect("https://bruh6x.herokuapp.com/");
 // var socket = io.connect("localhost:3000");
 var mySocketID;
 var myName;
